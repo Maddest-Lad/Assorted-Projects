@@ -3,6 +3,7 @@ import time
 import os
 import pyautogui as auto
 
+# Fishing / Mining Automation
 
 class Automation:
 

@@ -1,6 +1,8 @@
 import pyautogui as auto
 from time import sleep
 
+# Auto Collect Loot From Fighting
+
 while True:
     auto.hscroll(-1000)
     sleep(1)
