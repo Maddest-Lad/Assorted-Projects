@@ -1,3 +1,6 @@
+PySynonym
+pypiwin32
+pyttsx3
 pyglet
 winwifi
 PySimpleGUI
