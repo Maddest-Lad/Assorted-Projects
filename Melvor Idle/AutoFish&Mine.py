@@ -12,8 +12,10 @@ class Automation:
         self.rez = auto.size()
 
         # Mining Stuff
-        self.ore_positions = [(482, 550), (875, 550), (1298, 550), (1870, 550), (460, 850), (890, 850)]
-        self.ore_names = ["Rune Essence", "Copper", "Tin", "Iron", "Coal", "Silver"]
+        self.ore_positions = [(482, 550), (875, 550), (1298, 550), (1870, 550), (460, 850), (890, 850), (1291, 836),
+                              (1748, 859), (460, 850), (460, 850), (460, 850), (460, 850)]
+        self.ore_names = ["Rune Essence", "Copper", "Tin", "Iron", "Coal", "Silver", "Gold",
+                          "Mithril", "Coal", "Coal", "Coal", "Coal"]
 
     # Evenly Distributes Time Mining Ores, cycles to avoid ore depletion
     # mine_time : integer representing the seconds to mine for
@@ -68,8 +70,11 @@ class Automation:
 
 
 a = Automation()
-a.mine(3600, True)
-a.fish(3600, True)
-# a.print_position()
+
+
+while True:
+    a.mine(3600, True)
+
+
 
 
