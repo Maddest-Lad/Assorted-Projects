@@ -1,0 +1,4 @@
+pyglet
+winwifi
+PySimpleGUI
+pyautogui
