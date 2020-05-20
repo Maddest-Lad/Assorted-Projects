@@ -1,7 +1,7 @@
-import keyboard
 import time
-import os
+
 import pyautogui as auto
+
 
 # Fishing / Mining Automation
 
@@ -47,7 +47,7 @@ class Automation:
         auto.click(x=30, y=820, button='left')
 
         # Move to Bottom Of Tab
-        auto.moveTo(x=self.rez[0]/2, y=self.rez[1]/2)
+        auto.moveTo(x=self.rez[0] / 2, y=self.rez[1] / 2)
         auto.vscroll(-1000)
 
         # Select Raw Swordfish & Start Fishing
@@ -61,7 +61,6 @@ class Automation:
             if verbose:
                 print("Still Fishing")
 
-
     @staticmethod
     def print_position():
 
@@ -72,10 +71,5 @@ class Automation:
 
 a = Automation()
 
-
 while True:
     a.mine(3600, True)
-
-
-
-
