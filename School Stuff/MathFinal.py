@@ -1,24 +1,25 @@
-import matplotlib.pyplot as plt
+# Problem 12
+
+
+# Recursively Calculate Bonus Based On Years Since Hiring
+def bonus(year) -> int:
+    if year > 0:
+        return bonus(year - 1) + 1500 * year
+    else:
+        return 0
+
+
+# Returns 67500 To Represent Constant Yearly Salary
+def salary() -> int:
+    return 67500
+
 
 total = 0
+year = 1
 
-salary = 67500
-bonus = 1500
+while total < 1000000:
+    total += salary() + bonus(year)
+    year += 1
 
-y = []
-x = [k for k in range(15)]
-
-for i in range(15):
-    total += salary + bonus
-    bonus += 1500
-
-    y.append(total)
-
-plt.plot(x, y)
-
-plt.xlabel('years')
-plt.ylabel('Millions earned')
-
-plt.title('Mayas Earnings Over 14 Years')
-
-plt.show()
+# (1,005,000 In The 11th Year)
+print(total, year)
