@@ -1,7 +1,9 @@
-PySynonym
+PySynonym~=0.0.9
 pypiwin32
 pyttsx3
-pyglet
-winwifi
-PySimpleGUI
-pyautogui
+pyglet~=1.5.5
+winwifi~=1.0.3
+PySimpleGUI~=4.19.0
+pyautogui~=0.9.50
+matplotlib~=3.2.1
+Pillow~=7.1.1
