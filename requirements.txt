@@ -1,3 +1,5 @@
+pydirectinput
+keyboard
 PySynonym~=0.0.9
 pypiwin32
 pyttsx3
