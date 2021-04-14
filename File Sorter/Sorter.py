@@ -40,7 +40,7 @@ for file in files:
 
     # Sometimes shutil Can Create All Sorts of Errors - Usually Permission, But Occasionally Wonky Things
     try:
-        # The First Path is the Original File's Location + Name, The Second Is The Destination + Name
+        # The First.txt Path is the Original File's Location + Name, The Second Is The Destination + Name
         shutil.move(os.path.join(path, file), os.path.join(destination_folder, file))
     except (FileExistsError, PermissionError) as e:
         continue

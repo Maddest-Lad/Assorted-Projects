@@ -1,17 +1,16 @@
 import wave
-import os
-import time
+import string
+import random
 import pyaudio
 
 CHUNK = 1024  # Record In Chunks of 1024 Samples
-SAMPLE_FORMAT = pyaudio.paInt16  # 16 bits per sample
+SAMPLE_FORMAT = pyaudio.paInt8  # 8 bits per sample
 CHANNELS = 2
 FS = 44100  # Record at 44100 samples per second
-SECONDS = 3
-FILENAME = "output.wav"
+SECONDS = 300  # 5 Min
 
 
-def record(length: int):
+def record():
     # Create an interface to PortAudio
     p = pyaudio.PyAudio()
 
@@ -20,7 +19,7 @@ def record(length: int):
     frames = []  # Initialize array to store frames
 
     # Store data in chunks for 3 seconds
-    for i in range(0, int(FS / CHUNK * SECONDS)):
+    for _ in range(0, int(FS / CHUNK * SECONDS)):
         data = stream.read(CHUNK)
         frames.append(data)
 
@@ -29,17 +28,17 @@ def record(length: int):
     stream.close()
     p.terminate()
 
-    # Only Keep So Much Data
-    files = [file for file in os.listdir(os.path.join(os.getcwd(), "data"))]
-    files.sort(key=os.path.getmtime)
-
-    print(files)
+    # Random Filename
+    res = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
 
     # Save the recorded data as a WAV file
-    wf = wave.open("output.wav", 'wb')
+    wf = wave.open("{}.wav".format(res), 'wb')
     wf.setnchannels(CHANNELS)
     wf.setsampwidth(p.get_sample_size(SAMPLE_FORMAT))
     wf.setframerate(FS)
     wf.writeframes(b''.join(frames))
     wf.close()
 
+
+while True:
+    record()

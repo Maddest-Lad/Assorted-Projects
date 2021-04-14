@@ -8,7 +8,7 @@ def do_health_screen(symptoms: bool = False, explainable: bool = False) -> None:
     """
     Fills Out The RIT Daily Health Screen, Hooks Included For Customization / Potential Discord Bot ?
 
-    :param symptoms: First Yes/No on DHS, Do You Have Symptoms?
+    :param symptoms: First.txt Yes/No on DHS, Do You Have Symptoms?
     :param explainable: If Yes on The Above, Are They Explainable As Something Other Than Covid
     """
 
