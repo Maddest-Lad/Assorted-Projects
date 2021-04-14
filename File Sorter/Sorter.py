@@ -42,5 +42,5 @@ for file in files:
     try:
         # The First Path is the Original File's Location + Name, The Second Is The Destination + Name
         shutil.move(os.path.join(path, file), os.path.join(destination_folder, file))
-    except shutil.Error as e:
-        print(e)
+    except (FileExistsError, PermissionError) as e:
+        continue

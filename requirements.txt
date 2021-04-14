@@ -1,3 +1,4 @@
+pyaudio
 pydirectinput
 keyboard
 PySynonym~=0.0.9

@@ -1,5 +1,4 @@
 from random import randint
-from Tools.scripts.treesync import raw_input
 
 
 def names():
@@ -26,21 +25,20 @@ def big_names():
     return adjPick + " " + nounPick
 
 
-def prints():  # Prints 10 Names From Each Name Pool Set
-    print("\n" + "Logical Names:")
-    for i in range(10):
-        print(names())
+def food():
+    try:
+        adj2 = tuple(open('adjectivesLong.txt', 'r'))
+        adj = tuple(open('adjectivesTaste.txt', 'r'))
+        nouns = tuple(open('FoodNouns.txt', 'r'))
+        adjPick = adj[randint(0, 20)].capitalize().splitlines()[0]
+        adjPick2 = adj2[randint(0, 28479)].capitalize().splitlines()[0]
+        nounPick = nouns[randint(0, 228)].capitalize().splitlines()[0]
+        return adjPick + " " + adjPick2 + " " + nounPick
+    except:
+        pass
 
-    print("\n" + "Crazy Names:")
-    for i in range(10):
-        print(big_names())
-
-    print("\n"+"Sci-Fi Names:")
-    for i in range(10):
-        print(sci_names())
-
-    print("\n")
+        return ""
 
 
-prints()
-raw_input("Press Enter to Close")
+for i in range(50):
+    print(food())
