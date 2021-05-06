@@ -28,7 +28,7 @@ for file in files:
     extension = extension[1:]
 
     # Ignore Any Files Without an Extension, and Those That Cause Errors
-    # lnk - The Shortcut Extension - Runs Into Problems Due To It Being A Link To Somewhere Else
+    # lnk - The Extension For Shortcuts - Windows Complains About Moving System Links
     if extension in ["", "lnk"]:
         continue
 
