@@ -1,11 +1,6 @@
 import os
 import shutil
 
-# Original By Gaganram PM
-# Licenced Under CC BY-NC-SA 4.0 - https://creativecommons.org/licenses/by-nc-sa/4.0/
-# https://www.instructables.com/Automatic-File-Sorter-With-Python/
-# Modified By Sam Harris for Readability and Improved Functionality
-
 # A Command Line Script Which Sorts Files Into Sub-Folders Based On File Extension
 # Lastly, This Program Ought To Be Migrated To Use the More Up To Date pathlib Library Instead of os.path
 
