@@ -4,10 +4,10 @@ import random
 import pyaudio
 
 CHUNK = 1024  # Record In Chunks of 1024 Samples
-SAMPLE_FORMAT = pyaudio.paInt8  # 8 bits per sample
+SAMPLE_FORMAT = pyaudio.paInt16 # 16 bits per sample
 CHANNELS = 2
 FS = 44100  # Record at 44100 samples per second
-SECONDS = 300  # 5 Min
+SECONDS = 300  # 10 Min
 
 
 def record():
@@ -32,7 +32,7 @@ def record():
     res = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
 
     # Save the recorded data as a WAV file
-    wf = wave.open("{}.wav".format(res), 'wb')
+    wf = wave.open("data/{}.wav".format(res), 'wb')
     wf.setnchannels(CHANNELS)
     wf.setsampwidth(p.get_sample_size(SAMPLE_FORMAT))
     wf.setframerate(FS)
