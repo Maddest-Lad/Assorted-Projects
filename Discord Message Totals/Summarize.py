@@ -30,17 +30,17 @@ for file_name in os.listdir(os.getcwd()):
     # By God Close The File Before Memory Dies
     csv_file.close()
 
-new_list = Counter()
-
-for i in user_words.most_common():
-
-    try:
-        new_list[i[0]] = i[1] / user_messages[i[0]]
-
-    except:
-
-        continue
+# new_list = Counter()
+#
+# for i in user_words.most_common():
+#
+#     try:
+#         new_list[i[0]] = i[1] / user_messages[i[0]]
+#
+#     except:
+#
+#         continue
 
 # Nice Aligned Print
-for x in new_list.most_common():
-    print("%-*s Avg: %s" % (30, x[0], round(x[1], 2)))
+for x in user_messages.most_common():
+    print("%-*s Total: %s" % (30, x[0], round(x[1], 2)))

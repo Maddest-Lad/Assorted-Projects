@@ -4,13 +4,14 @@ import pydirectinput as dirt
 from PIL import ImageGrab
 
 # Global Colors For The Fishing Bobber
-ABOVE_WATER = [242, 251, 58]
-BELOW_WATER = [100, 134, 109]
+ABOVE_WATER = [242, 249, 0]
+BELOW_WATER_NIGHT = [95, 115, 97]
+BELOW_WATER_DAY = [101, 130, 107]
 
 
 # Determines The Closeness of Two RGB Colors, Using t or Threshold As The Deciding Factor
-def similar_colors(color_1: list, color_2: list, t: int) -> bool:
-    return abs(color_1[0] - color_2[0]) + abs(color_1[1] - color_2[1]) + abs(color_1[2] - color_2[2]) < t
+def similar_colors(color_1: list, color_2: list, threshold: int) -> bool:
+    return abs(color_1[0] - color_2[0]) + abs(color_1[1] - color_2[1]) + abs(color_1[2] - color_2[2]) < threshold
 
 
 # Captures The Colors In An Area of The Screen And Returns True If One of the Colors Matches the BELOW_WATER Bobber
@@ -26,8 +27,7 @@ def fish_bitting() -> bool:
     # Check For Color Similarity
     for i in color_list:
         if len(i) == 3:
-            if similar_colors(BELOW_WATER, i, 5):
-                print(i, BELOW_WATER)
+            if similar_colors(BELOW_WATER_DAY, i, 10) or similar_colors(BELOW_WATER_NIGHT, i, 10):
                 return True
 
     return False
