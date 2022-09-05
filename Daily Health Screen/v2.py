@@ -1,3 +1,5 @@
+# The Not Shit Version of Automating The Daily Health Screen (DHS)
+
 from threading import Timer
 import webbrowser
 

@@ -22,8 +22,8 @@ for file_name in os.listdir(os.getcwd()):
         try:
 
             for row in reader:
-                user_messages[row[1]] += 1 # Message Count
-                user_words[row[1]] += len(row[3].split()) # Word Count
+                user_messages[row[1]] += 1  # Message Count
+                user_words[row[1]] += len(row[3].split())  # Word Count
         except:
             continue
 

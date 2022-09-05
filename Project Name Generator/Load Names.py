@@ -10,11 +10,14 @@ def names():
 
 
 def sci_names():
-    adj = tuple(open('adjectivesSci.txt', 'r'))
-    nouns = tuple(open('nounsSci.txt', 'r'))
-    adjPick = adj[randint(0, 53)].capitalize().splitlines()[0]
-    nounPick = nouns[randint(0, 57)].capitalize().splitlines()[0]
-    return adjPick + " " + nounPick
+    try:
+        adj = tuple(open('adjectivesSci.txt', 'r'))
+        nouns = tuple(open('nounsSci.txt', 'r'))
+        adjPick = adj[randint(0, 53)].capitalize().splitlines()[0]
+        nounPick = nouns[randint(0, 57)].capitalize().splitlines()[0]
+        return adjPick + " " + nounPick
+    except:
+        return ""
 
 
 def big_names():
@@ -41,4 +44,4 @@ def food():
 
 
 for i in range(50):
-    print(food())
+    print(sci_names())
