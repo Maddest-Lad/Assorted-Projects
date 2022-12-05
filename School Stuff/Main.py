@@ -37,7 +37,7 @@ starting_window = sg.Window("Epidemic Simulation", layout)  # Start PySimpleGUI 
 while True:
     event, values = starting_window.Read()  # Read values
     if event == "Start Simulation":  # If start event
-        # Set values for variables received from input window
+        # Set values for variables received from input.txt window
         population, infection_rate, recovery_rate, fatality_rate = values["population"]**2, \
                                                                    values["infection_rate"] / 100, \
                                                                    values["recovery_rate"] / 100, \

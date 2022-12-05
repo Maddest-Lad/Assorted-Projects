@@ -161,7 +161,7 @@ def toSoup(r):
     removeRe = re.compile(br"^</td>\s*$", re.MULTILINE)
     
     # BS4 outputs unsuppressable error messages when it can't
-    # decode the input bytes properly. This... suppresses them.
+    # decode the input.txt bytes properly. This... suppresses them.
     with Silence():
         return BeautifulSoup(re.sub(removeRe, b'', r.content), 'html.parser')
 

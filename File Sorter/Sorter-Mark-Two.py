@@ -37,7 +37,7 @@ def sort_files(path: str, rules: dict, recursive=False) -> list:
 if __name__ == "__main__":
     log_file = open("log.txt", "w")
 
-    # Get user input for the path to sort
+    # Get user input.txt for the path to sort
     while True:
         try:
             # Get User Input, and Scan The Directory
@@ -59,4 +59,4 @@ if __name__ == "__main__":
         "Applications": [".exe", ".msi", ".dmg", ".pkg", ".deb", ".rpm", ".app", ".appx", ".apk", ".ipa"],
     }
 
-    #sort_files(path, reverse_dictionary)
+    # sort_files(path, reverse_dictionary)

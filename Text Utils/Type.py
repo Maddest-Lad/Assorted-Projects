@@ -1,5 +1,12 @@
-import pydirectinput as auto
-from time import sleep
 
-sleep(5)
-auto.typewrite("https://drive.google.com/file/d/1BpdL8eGW4B7jUD2iKolFmBAtEWo9WERS/view?usp=sharing")
+with open("input.txt", "r") as f:
+    text = f.read().split("\n")
+    x = True
+    for line in text:
+
+        if x:
+            print(line + ",", end="")
+            x = not x
+        else:
+            x = not x
+
