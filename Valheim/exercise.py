@@ -6,9 +6,11 @@ sleep(3)
 # pdt.press("ctrl")
 while True:
     # # Sneak
+    # pdt.keyDown("ctrl")
     # pdt.keyDown("w")
-    # sleep(16)
+    # sleep(7)
     # pdt.keyUp("w")
+    # pdt.keyUp("ctrl")
     # sleep(7)
 
     # Run
@@ -17,9 +19,9 @@ while True:
     sleep(7)
     pdt.keyUp("w")
     pdt.keyUp("shift")
-    sleep(2.3)
+    sleep(7)
 
-    # # Jump
+    # # # Jump
     # sleep(1)
     # pdt.press("space")
     # sleep(1)
@@ -32,4 +34,4 @@ while True:
     # pdt.press("space")
     # sleep(1)
     # pdt.press("space")
-    # sleep(2.3)
+    # sleep(7)
