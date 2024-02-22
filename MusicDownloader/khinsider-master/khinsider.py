@@ -14,13 +14,14 @@ from functools import wraps
 
 try:
     from urllib.parse import unquote, urljoin, urlsplit
-except ImportError: # Python 2
+except ImportError:  # Python 2
     from urlparse import unquote, urljoin, urlsplit
 
-try: # Python 2
+try:  # Python 2
     from os import getcwdu as getcwd
 except ImportError:
     from os import getcwd
+
 
 class Silence(object):
     def __enter__(self):
@@ -28,7 +29,7 @@ class Silence(object):
         self._stderr = sys.stderr
         sys.stdout = open(os.devnull, 'w')
         sys.stderr = open(os.devnull, 'w')
-    
+
     def __exit__(self, *_):
         sys.stdout = self._stdout
         sys.stderr = self._stderr
@@ -47,17 +48,18 @@ if __name__ == '__main__':
     # So.... we have to do this dance to avoid deprecation warnings.
     try:
         try:
-            from importlib.util import find_spec as find_module # Python 3.4+
+            from importlib.util import find_spec as find_module  # Python 3.4+
         except ImportError:
-            from importlib import find_loader as find_module # Python 3.3
+            from importlib import find_loader as find_module  # Python 3.3
     except ImportError:
-        from imp import find_module # Python 2
+        from imp import find_module  # Python 2
 
     # User-friendly name, import name, pip specification.
     requiredModules = [
         ['requests', 'requests', 'requests >= 2.0.0, < 3.0.0'],
         ['Beautiful Soup 4', 'bs4', 'beautifulsoup4 >= 4.4.0, < 5.0.0']
     ]
+
 
     def moduleExists(name):
         try:
@@ -66,12 +68,15 @@ if __name__ == '__main__':
             return False
         else:
             return result is not None
+
+
     def neededInstalls(requiredModules=requiredModules):
         uninstalledModules = []
         for module in requiredModules:
             if not moduleExists(module[1]):
                 uninstalledModules.append(module)
         return uninstalledModules
+
 
     def install(package):
         nowhere = open(os.devnull, 'w')
@@ -80,11 +85,13 @@ if __name__ == '__main__':
                                      stderr=nowhere)
         if exitStatus != 0:
             raise OSError("Failed to install package.")
+
+
     def installModules(modules, verbose=True):
         for module in modules:
             if verbose:
                 print("Installing {}...".format(module[0]))
-            
+
             try:
                 install(module[2])
             except OSError as e:
@@ -97,9 +104,12 @@ if __name__ == '__main__':
                           "(pip install \"{}\")".format(module[2]),
                           file=sys.stderr)
                 raise e
+
+
     def installRequiredModules(needed=None, verbose=True):
         needed = neededInstalls() if needed is None else needed
         installModules(neededInstalls(), verbose)
+
 
     needed = neededInstalls()
     if needed:
@@ -142,12 +152,14 @@ def unicodePrint(*args, **kwargs):
 
 def lazyProperty(func):
     attrName = '_lazy_' + func.__name__
+
     @property
     @wraps(func)
     def lazyVersion(self):
         if not hasattr(self, attrName):
             setattr(self, attrName, func(self))
         return getattr(self, attrName)
+
     return lazyVersion
 
 
@@ -159,7 +171,7 @@ def getSoup(*args, **kwargs):
 def toSoup(r):
     # Fix errors in khinsider's HTML
     removeRe = re.compile(br"^</td>\s*$", re.MULTILINE)
-    
+
     # BS4 outputs unsuppressable error messages when it can't
     # decode the input.txt bytes properly. This... suppresses them.
     with Silence():
@@ -169,12 +181,12 @@ def toSoup(r):
 def getAppropriateFile(song, formatOrder):
     if formatOrder is None:
         return song.files[0]
-    
+
     for extension in formatOrder:
         for file in song.files:
             if os.path.splitext(file.filename)[1][1:].lower() == extension:
                 return file
-    
+
     return song.files[0]
 
 
@@ -192,10 +204,10 @@ def friendlyDownloadFile(file, path, index, total, verbose=False):
     byTheWay = ""
     if filename != file.filename:
         byTheWay = " (replaced characters not in the filesystem's \"{}\" encoding)".format(encoding)
-    
+
     filename = FILENAME_INVALID_RE.sub('-', filename)
     path = os.path.join(path, filename)
-    
+
     if not os.path.exists(path):
         if verbose:
             unicodePrint("Downloading {}: {}{}...".format(numberStr, filename, byTheWay))
@@ -222,9 +234,11 @@ def friendlyDownloadFile(file, path, index, total, verbose=False):
 class KhinsiderError(Exception):
     pass
 
+
 class SoundtrackError(Exception):
     def __init__(self, soundtrack):
         self.soundtrack = soundtrack
+
 
 class NonexistentSoundtrackError(SoundtrackError, ValueError):
     def __str__(self):
@@ -232,16 +246,19 @@ class NonexistentSoundtrackError(SoundtrackError, ValueError):
         s = "The soundtrack {}does not exist.".format(ost)
         return s
 
+
 class NonexistentFormatsError(SoundtrackError, ValueError):
     def __init__(self, soundtrack, requestedFormats):
         super(NonexistentFormatsError, self).__init__(soundtrack)
         self.requestedFormats = requestedFormats
+
     def __str__(self):
         ost = '"{}" '.format(self.soundtrack.id) if len(self.soundtrack.id) <= 80 else ""
         s = "The soundtrack {}is not available in the requested formats ({}).".format(
             ost,
             ", ".join('"{}"'.format(extension) for extension in self.requestedFormats))
         return s
+
 
 class Soundtrack(object):
     """A KHInsider soundtrack. Initialize with a soundtrack ID.
@@ -257,7 +274,7 @@ class Soundtrack(object):
     def __init__(self, soundtrackId):
         self.id = soundtrackId
         self.url = urljoin(BASE_URL, 'game-soundtracks/album/' + self.id)
-    
+
     def __repr__(self):
         return "<{}: {}>".format(self.__class__.__name__, self.id)
 
@@ -290,7 +307,7 @@ class Soundtrack(object):
         urls = [a['href'] for a in anchors]
         songs = [Song(urljoin(self.url, url)) for url in urls]
         return songs
-    
+
     @lazyProperty
     def images(self):
         anchors = [a for a in self._contentSoup('p')[1]('a') if a.find('img')]
@@ -334,7 +351,7 @@ class Soundtrack(object):
         for fileNumber, file in enumerate(files, 1):
             if not friendlyDownloadFile(file, path, fileNumber, totalFiles, verbose):
                 success = False
-        
+
         return success
 
 
@@ -347,13 +364,13 @@ class Song(object):
     * files: A list of the song's files - there may be several if the song
              is available in more than one format.
     """
-    
+
     def __init__(self, url):
         self.url = url
-    
+
     def __repr__(self):
         return "<{}: {}>".format(self.__class__.__name__, self.url)
-    
+
     @lazyProperty
     def _soup(self):
         return getSoup(self.url)
@@ -398,7 +415,7 @@ class File(object):
 
     def __repr__(self):
         return "<{}: {}>".format(self.__class__.__name__, self.url)
-    
+
     def download(self, path):
         """Download the file to `path`."""
         response = requests.get(self.url, timeout=10)
@@ -416,6 +433,7 @@ def download(soundtrackId, path='', makeDirs=True, formatOrder=None, verbose=Fal
 class SearchError(KhinsiderError):
     pass
 
+
 def search(term):
     """Return a list of Soundtrack objects for the search term `term`."""
     r = requests.get(urljoin(BASE_URL, 'search'), params={'search': term})
@@ -432,6 +450,7 @@ def search(term):
 
     return [Soundtrack(id) for id in soundtrackIds]
 
+
 # --- And now for the execution. ---
 
 if __name__ == '__main__':
@@ -439,15 +458,20 @@ if __name__ == '__main__':
 
     SCRIPT_NAME = os.path.split(sys.argv[0])[-1]
 
+
     # Tiny details!
     class KindArgumentParser(argparse.ArgumentParser):
         def error(self, message):
-            print("No soundtrack specified! As the first parameter, use the name the soundtrack uses in its URL.", file=sys.stderr)
+            print("No soundtrack specified! As the first parameter, use the name the soundtrack uses in its URL.",
+                  file=sys.stderr)
             print("If you want to, you can also specify an output directory as the second parameter.", file=sys.stderr)
-            print("You can also search for soundtracks by using your search term as parameter - as long as it's not an existing soundtrack.", file=sys.stderr)
+            print(
+                "You can also search for soundtracks by using your search term as parameter - as long as it's not an existing soundtrack.",
+                file=sys.stderr)
             print(file=sys.stderr)
             print("For detailed help and more options, run \"{} --help\".".format(SCRIPT_NAME), file=sys.stderr)
             sys.exit(1)
+
 
     # More tiny details!
     class ProperHelpFormatter(argparse.RawTextHelpFormatter):
@@ -456,18 +480,19 @@ if __name__ == '__main__':
                 prefix = 'Usage: '
             return super(ProperHelpFormatter, self).add_usage(usage, actions, groups, prefix)
 
-    def doIt(): # Only in a function to be able to stop after errors, really.
+
+    def doIt():  # Only in a function to be able to stop after errors, really.
         parser = KindArgumentParser(description="Download entire soundtracks from KHInsider.\n\n"
-                                    "Examples:\n"
-                                    "%(prog)s jumping-flash\n"
-                                    "%(prog)s katamari-forever \"music{}Katamari Forever OST\"\n"
-                                    "%(prog)s --search persona\n"
-                                    "%(prog)s --format flac mother-3".format(os.sep),
+                                                "Examples:\n"
+                                                "%(prog)s jumping-flash\n"
+                                                "%(prog)s katamari-forever \"music{}Katamari Forever OST\"\n"
+                                                "%(prog)s --search persona\n"
+                                                "%(prog)s --format flac mother-3".format(os.sep),
                                     epilog="Hope you enjoy the script!",
                                     formatter_class=ProperHelpFormatter,
                                     add_help=False)
-        
-        try: # Even more tiny details!
+
+        try:  # Even more tiny details!
             parser._positionals.title = "Positional arguments"
             parser._optionals.title = "Optional arguments"
         except AttributeError:
@@ -475,20 +500,20 @@ if __name__ == '__main__':
 
         parser.add_argument('soundtrack',
                             help="The ID of the soundtrack, used at the end of its URL (e.g. \"jumping-flash\").\n"
-                            "May also simply be the URL of the soundtrack.\n"
-                            "If it doesn't exist (or --search is specified, orrrr too many arguments are supplied),\n"
-                            "all the positional arguments together are used as a search term.")
+                                 "May also simply be the URL of the soundtrack.\n"
+                                 "If it doesn't exist (or --search is specified, orrrr too many arguments are supplied),\n"
+                                 "all the positional arguments together are used as a search term.")
         parser.add_argument('outPath', metavar='download directory', nargs='?',
                             help="The directory to download the soundtrack to.\n"
-                            "Defaults to creating a new directory with the soundtrack ID as its name.")
+                                 "Defaults to creating a new directory with the soundtrack ID as its name.")
         parser.add_argument('trailingArguments', nargs=argparse.REMAINDER, help=argparse.SUPPRESS)
-        
+
         parser.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS,
                             help="Show this help and exit.")
         parser.add_argument('-f', '--format', default=None, metavar="...",
                             help="The file format in which to download the soundtrack (e.g. \"flac\").\n"
-                            "You can also specify a comma-separated list of which formats to try\n"
-                            "(for example, \"flac,mp3\": download FLAC if available, otherwise MP3).")
+                                 "You can also specify a comma-separated list of which formats to try\n"
+                                 "(for example, \"flac,mp3\": download FLAC if available, otherwise MP3).")
         parser.add_argument('-s', '--search', action='store_true',
                             help="Always search, regardless of whether the specified soundtrack ID exists or not.")
 
@@ -496,9 +521,9 @@ if __name__ == '__main__':
 
         try:
             soundtrack = arguments.soundtrack.decode(sys.getfilesystemencoding())
-        except AttributeError: # Python 3's argv is in Unicode
+        except AttributeError:  # Python 3's argv is in Unicode
             soundtrack = arguments.soundtrack
-        
+
         urlRe = re.compile(r"^https?://" + urlsplit(BASE_URL).netloc +
                            r"/game-soundtracks/album/(?P<soundtrack>[^/]+)$",
                            re.IGNORECASE)
@@ -515,7 +540,7 @@ if __name__ == '__main__':
         searchTerm += arguments.trailingArguments
         try:
             searchTerm = ' '.join(arg.decode(sys.getfilesystemencoding()) for arg in searchTerm)
-        except AttributeError: # Python 3, again
+        except AttributeError:  # Python 3, again
             searchTerm = ' '.join(searchTerm)
         searchTerm = searchTerm.replace('-', ' ')
 
@@ -551,20 +576,20 @@ if __name__ == '__main__':
                         searchResults = None
                     print("The soundtrack \"{}\" does not seem to exist.".format(soundtrack), file=sys.stderr)
 
-                    if searchResults: # aww yeah we gon' do some searchin'
+                    if searchResults:  # aww yeah we gon' do some searchin'
                         print("\nThese exist, though:", file=sys.stderr)
                         for soundtrack in searchResults:
                             print(soundtrack.id, file=sys.stderr)
                     elif searchResults is None:
                         print("A search for \"{}\" could not be performed either. "
                               "It may be too short.".format(searchTerm), file=sys.stderr)
-                    
+
                     return 1
                 except NonexistentFormatsError as e:
                     s = ("Format{} not available. "
                          "The soundtrack \"{}\" is only available in the ").format(
                         "" if len(formatOrder) == 1 else "s", soundtrack)
-                    
+
                     formats = e.soundtrack.availableFormats
                     if len(formats) == 1:
                         s += "\"{}\" format.".format(formats[0])
@@ -573,9 +598,9 @@ if __name__ == '__main__':
                             ", ".join('"{}"'.format(extension) for extension in formats[:-1]),
                             "," if len(formats) > 2 else "",
                             formats[-1])
-                    
+
                     print(s, file=sys.stderr)
-                    
+
                     return 1
                 except KeyboardInterrupt:
                     print("Stopped download.", file=sys.stderr)
@@ -593,7 +618,8 @@ if __name__ == '__main__':
             print("Attach the following error message:", file=sys.stderr)
             print(file=sys.stderr)
             raise
-    
+
         return 0
-    
+
+
     sys.exit(doIt())
