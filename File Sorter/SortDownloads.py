@@ -1,6 +1,9 @@
 import os
 import shutil
 
+# Sorts the Downloads Folder into Extension Based Subfolders 
+# A Less Ephemeral Version of File Explorer's "Sort by Type"
+
 path =  os.path.expanduser("~") + "/Downloads"
 
 for file in os.listdir(path):
