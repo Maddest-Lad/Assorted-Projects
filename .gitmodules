@@ -1,0 +1,3 @@
+[submodule "Youtube Utils/pytubefix"]
+	path = Youtube Utils/pytubefix
+	url = https://github.com/JuanBindez/pytubefix
