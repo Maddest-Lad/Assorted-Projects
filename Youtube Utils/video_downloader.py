@@ -3,7 +3,7 @@ import subprocess
 import re
 import os
 
-from pytubefix import YouTube
+from pytube import YouTube
 
 def sanitize_filename(filename):
     """
@@ -17,7 +17,7 @@ def sanitize_filename(filename):
 
     return filename
 
-def download_video(url: str, media_library_path: Path, include_subtitles: bool = True) -> str:
+def download_video(url: str, media_library_path: Path, include_subtitles: bool = False) -> str:
     """
     url: URL of the video to download
     media_library_path: working directory for media library 

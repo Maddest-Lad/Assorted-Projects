@@ -21,7 +21,7 @@ def parse_chapters(chapters_text):
     chapters = []
     lines = chapters_text.strip().split('\n')
     for line in lines:
-        match = re.match(r'(\d{2}:\d{2})\s(.+)', line)
+        match = re.match(r'(\d{1,2}:\d{2}:\d{2}|\d{1,2}:\d{2})\s(.+)', line)
         if match:
             time_str, title = match.groups()
             chapters.append((time_str, title))
@@ -29,7 +29,7 @@ def parse_chapters(chapters_text):
 
 def convert_time_to_seconds(time_str):
     """
-    Converts a time string in HH:MM or MM:SS to total seconds.
+    Converts a time string in HH:MM:SS, H:MM:SS, or MM:SS to total seconds.
     """
     parts = time_str.split(':')
     if len(parts) == 2:
@@ -47,13 +47,13 @@ def split_video(video_path, chapters, output_dir, audio_quality="192k"):
     output_dir.mkdir(exist_ok=True)
     for i, (start, title) in enumerate(chapters):
         start_seconds = convert_time_to_seconds(start)
-        if i+1 < len(chapters):
-            next_start = chapters[i+1][0]
+        if i + 1 < len(chapters):
+            next_start = chapters[i + 1][0]
             duration = convert_time_to_seconds(next_start) - start_seconds
         else:
             duration = None
 
-        output_filename = f"{i+1:02d} - {title}.mp3".replace('/', '_').replace('\\', '_')
+        output_filename = f"{i + 1:02d} - {title}.mp3".replace('/', '_').replace('\\', '_')
         output_filepath = output_dir / output_filename
 
         command = [
